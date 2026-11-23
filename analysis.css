@@ -19,19 +19,19 @@ figcaption,.plot-hint,.plot-coverage,.plot-status { font-size:.88rem; color:var(
 figcaption { margin:.45rem 0 0; }
 .tract-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(1rem,3.5vw,2.3rem); }
 .tract-map-area,.tract-details,.controls > div,.plot-grid > div { min-width:0; }
-.analysis-page select,.analysis-button { min-height:44px; max-width:100%; padding:.45rem .65rem; border:1px solid #598392; border-radius:5px; background:white; color:var(--ink); font:inherit; }
+.analysis-page select,.analysis-button { min-height:44px; max-width:100%; padding:.45rem .65rem; border:1px solid #598392; background:white; color:var(--ink); font:inherit; }
 .analysis-page select { width:100%; }
 .analysis-page select:focus-visible,.analysis-button:focus-visible { outline-offset:3px; }
 .analysis-button { color:var(--navy); font-weight:700; }
 .analysis-button:not(:disabled):hover { background:var(--wash); }
 .analysis-button:disabled { opacity:.56; cursor:default; }
-#tract-map { display:block; width:100%; background:#eef2ef; border:1px solid var(--line); border-radius:5px; margin-top:.7rem; }
+#tract-map { display:block; width:100%; background:#eef2ef; border:1px solid var(--line); margin-top:.7rem; }
 .tract-shape { fill-rule:evenodd; stroke:#75888c; stroke-width:.45; vector-effect:non-scaling-stroke; cursor:pointer; }
 .tract-shape:hover { stroke:var(--ink); stroke-width:1.45; }
 .tract-shape.is-selected { stroke:var(--ink); stroke-width:2.4; }
 .map-legend { display:flex; flex-wrap:wrap; gap:.35rem .7rem; padding:0; list-style:none; font-size:.79rem; margin:.5rem 0 0; }
 .map-legend li { display:flex; align-items:center; gap:.3rem; }
-.map-legend span { display:inline-block; width:.88rem; height:.88rem; border:1px solid #738587; border-radius:2px; }
+.map-legend span { display:inline-block; width:.88rem; height:.88rem; border:1px solid #738587; }
 #map-hover { min-height:1.35em; }
 .tract-comparison { margin-top:1.1rem; }
 .tract-comparison h3 { margin-bottom:.55rem; }
@@ -39,12 +39,12 @@ figcaption { margin:.45rem 0 0; }
 .selected-series { --series-color:var(--navy); }
 .median-series { --series-color:#7d9f8d; }
 .comparison-legend li { display:flex; align-items:center; gap:.4rem; }
-.comparison-legend li::before { content:""; width:.85rem; height:.65rem; border-radius:2px; background:var(--series-color); }
+.comparison-legend li::before { content:""; width:.85rem; height:.65rem; background:var(--series-color); }
 .comparison-metric { display:grid; gap:.1rem; padding:.46rem 0; border-top:1px solid var(--line); }
 .comparison-metric h4 { margin:0 0 .08rem; font-size:.88rem; line-height:1.3; }
 .comparison-bar { display:grid; grid-template-columns:minmax(0,1fr) 6.2rem; gap:.55rem; align-items:center; }
-.comparison-track { height:.56rem; background:#eef2ef; border-radius:2px; overflow:hidden; }
-.comparison-track span { display:block; height:100%; background:var(--series-color); border-radius:2px; }
+.comparison-track { height:.56rem; background:#eef2ef; overflow:hidden; }
+.comparison-track span { display:block; height:100%; background:var(--series-color); }
 .comparison-track.is-unavailable { background:transparent; }
 .comparison-value { font-size:.8rem; line-height:1.25; text-align:right; font-variant-numeric:tabular-nums; }
 .comparison-series-label { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
