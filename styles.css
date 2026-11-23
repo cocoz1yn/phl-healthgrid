@@ -1,11 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+
 :root {
   --ink:#01161e; --navy:#124559; --blue:#598392; --sage:#aec3b0;
   --wash:#eff6e0; --paper:#fff; --line:#d9e2dd; --quiet:#47616a;
+  --font-family:Lato,Arial,sans-serif;
 }
 * { box-sizing:border-box; }
 [hidden] { display:none !important; }
 html { scroll-behavior:auto; }
-body { margin:0; color:var(--ink); background:var(--wash); font:16px/1.5 Arial,sans-serif; }
+body { margin:0; color:var(--ink); background:var(--wash); font:16px/1.5 var(--font-family); }
 button,input { font:inherit; }
 button,input,select { border-radius:0; }
 button,summary,input[type=checkbox] { cursor:pointer; }

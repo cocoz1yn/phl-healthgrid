@@ -21,6 +21,7 @@
 
   window.createHealthMap = ({ canvas, onSelect, onParcelStatus }) => {
     const context = canvas.getContext("2d");
+    const fontFamily = getComputedStyle(canvas).fontFamily;
     const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
     const paths = Object.fromEntries(
       Object.entries(data.layers).map(([name, groups]) => [
@@ -142,7 +143,7 @@
 
       function label(name, x, y, { size, weight, color, angle = 0 }) {
         if (x < 5 || x > width - 5 || y < 10 || y > height - 10) return false;
-        context.font = `${weight} ${size}px Arial, sans-serif`;
+        context.font = `${weight} ${size}px ${fontFamily}`;
         const halfText = context.measureText(name).width / 2 + 4;
         const halfHeight = size / 2 + 3;
         const w = Math.abs(Math.cos(angle)) * halfText + Math.abs(Math.sin(angle)) * halfHeight;
@@ -325,6 +326,7 @@
     });
 
     resize();
+    document.fonts.load(`700 12px ${fontFamily}`).then(requestDraw, requestDraw);
     new ResizeObserver(resize).observe(canvas);
     return {
       update(nextMarkers, nextSelectedId) {

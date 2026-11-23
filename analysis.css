@@ -62,7 +62,7 @@ figcaption { margin:.45rem 0 0; }
 .plot-grid { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:1.2rem; }
 .plot-grid svg { display:block; width:100%; max-height:365px; }
 .scatter { cursor:crosshair; touch-action:none; }
-.plot-grid svg text { font:12px Arial,sans-serif; fill:var(--quiet); }
+.plot-grid svg text { font:12px var(--font-family); fill:var(--quiet); }
 .plot-grid svg .axis-label { font-size:14px; font-weight:700; fill:var(--navy); }
 .plot-grid svg .grid-line { stroke:#e1e9e5; }
 .plot-grid svg .axis-line { stroke:var(--quiet); }
