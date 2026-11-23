@@ -1,0 +1,84 @@
+.analysis-page { width:min(1200px, 100%); margin:auto; padding:clamp(1.25rem,3.5vw,3rem) clamp(.85rem,2.4vw,1.75rem) 1rem; }
+.page-intro { margin:0 0 1.75rem; }
+.page-intro h1 { margin:0 0 .4rem; color:var(--ink); font-size:clamp(2rem,4.5vw,3.35rem); line-height:1.09; letter-spacing:-.035em; }
+.page-intro p { margin:.65rem 0; max-width:68ch; font-size:clamp(1rem,1.8vw,1.15rem); color:var(--navy); }
+.section-links { display:flex; flex-wrap:wrap; gap:0 1.25rem; margin-top:.65rem; }
+.section-links a { line-height:1.4; display:flex; align-items:center; min-height:44px; font-weight:700; text-underline-offset:.18em; }
+.study-panel { padding:clamp(.85rem,2.3vw,1.7rem); margin:0 0 1.1rem; scroll-margin-top:1rem; }
+.study-panel h2,.study-panel h3 { color:var(--navy); line-height:1.2; margin:0 0 .7rem; }
+.study-panel h2 { font-size:clamp(1.2rem,2.15vw,1.65rem); }
+.study-panel h3 { font-size:1.12rem; }
+.study-panel p { max-width:72ch; margin:.65rem 0; }
+.study-panel p:last-child { margin-bottom:0; }
+.panel-intro { margin-bottom:1rem; }
+.figure-with-text { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); align-items:start; gap:clamp(1rem,3vw,2rem); }
+figure { margin:0; min-width:0; }
+figure a { display:block; }
+figure img { display:block; width:100%; height:auto; }
+figcaption,.plot-hint,.plot-coverage,.plot-status { font-size:.88rem; color:var(--quiet); }
+figcaption { margin:.45rem 0 0; }
+.tract-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(1rem,3.5vw,2.3rem); }
+.tract-map-area,.tract-details,.controls > div,.plot-grid > div { min-width:0; }
+.analysis-page select,.analysis-button { min-height:44px; max-width:100%; padding:.45rem .65rem; border:1px solid #598392; border-radius:5px; background:white; color:var(--ink); font:inherit; }
+.analysis-page select { width:100%; }
+.analysis-page select:focus-visible,.analysis-button:focus-visible { outline-offset:3px; }
+.analysis-button { color:var(--navy); font-weight:700; }
+.analysis-button:not(:disabled):hover { background:var(--wash); }
+.analysis-button:disabled { opacity:.56; cursor:default; }
+#tract-map { display:block; width:100%; background:#eef2ef; border:1px solid var(--line); border-radius:5px; margin-top:.7rem; }
+.tract-shape { fill-rule:evenodd; stroke:#75888c; stroke-width:.45; vector-effect:non-scaling-stroke; cursor:pointer; }
+.tract-shape:hover { stroke:var(--ink); stroke-width:1.45; }
+.tract-shape.is-selected { stroke:var(--ink); stroke-width:2.4; }
+.map-legend { display:flex; flex-wrap:wrap; gap:.35rem .7rem; padding:0; list-style:none; font-size:.79rem; margin:.5rem 0 0; }
+.map-legend li { display:flex; align-items:center; gap:.3rem; }
+.map-legend span { display:inline-block; width:.88rem; height:.88rem; border:1px solid #738587; border-radius:2px; }
+#map-hover { min-height:1.35em; }
+.tract-comparison { margin-top:1.1rem; }
+.tract-comparison h3 { margin-bottom:.55rem; }
+.comparison-legend { display:flex; flex-wrap:wrap; gap:.35rem 1.1rem; margin:0; padding:0; list-style:none; font-size:.86rem; color:var(--navy); }
+.selected-series { --series-color:var(--navy); }
+.median-series { --series-color:#7d9f8d; }
+.comparison-legend li { display:flex; align-items:center; gap:.4rem; }
+.comparison-legend li::before { content:""; width:.85rem; height:.65rem; border-radius:2px; background:var(--series-color); }
+.comparison-metric { display:grid; gap:.1rem; padding:.46rem 0; border-top:1px solid var(--line); }
+.comparison-metric h4 { margin:0 0 .08rem; font-size:.88rem; line-height:1.3; }
+.comparison-bar { display:grid; grid-template-columns:minmax(0,1fr) 6.2rem; gap:.55rem; align-items:center; }
+.comparison-track { height:.56rem; background:#eef2ef; border-radius:2px; overflow:hidden; }
+.comparison-track span { display:block; height:100%; background:var(--series-color); border-radius:2px; }
+.comparison-track.is-unavailable { background:transparent; }
+.comparison-value { font-size:.8rem; line-height:1.25; text-align:right; font-variant-numeric:tabular-nums; }
+.comparison-series-label { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.table-wrap { overflow-x:auto; max-width:100%; }
+.table-wrap table { border-collapse:collapse; width:100%; font-size:.88rem; }
+.table-wrap caption { font-weight:700; text-align:left; padding:.55rem 0; color:var(--navy); }
+.table-wrap th,.table-wrap td { border-bottom:1px solid var(--line); padding:.5rem .45rem; }
+.table-wrap thead { background:var(--wash); color:var(--ink); }
+.table-wrap th { text-align:left; }
+.table-wrap td,.table-wrap thead th:not(:first-child) { text-align:right; font-variant-numeric:tabular-nums; }
+.model-table { max-width:42rem; margin-top:.8rem; }
+.interactive { margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--line); }
+.controls { display:flex; flex-wrap:wrap; align-items:end; gap:.65rem 1rem; margin:.85rem 0; }
+.controls > div { flex:0 1 15rem; }
+.plot-grid { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:1.2rem; }
+.plot-grid svg { display:block; width:100%; max-height:365px; }
+.scatter { cursor:crosshair; touch-action:none; }
+.plot-grid svg text { font:12px Arial,sans-serif; fill:var(--quiet); }
+.plot-grid svg .axis-label { font-size:14px; font-weight:700; fill:var(--navy); }
+.plot-grid svg .grid-line { stroke:#e1e9e5; }
+.plot-grid svg .axis-line { stroke:var(--quiet); }
+.plot-grid svg .identity { stroke:var(--navy); stroke-dasharray:5 4; }
+.plot-grid svg circle { fill:var(--blue); stroke:var(--navy); stroke-width:.4; opacity:.65; }
+.plot-grid svg circle.dimmed { fill:#dce4de; stroke:none; opacity:.75; }
+.plot-grid svg circle.is-selected { fill:var(--navy); opacity:.88; }
+.plot-grid svg circle:hover { fill:var(--ink); opacity:1; }
+.plot-grid svg .brush { fill:#59839225; stroke:var(--navy); pointer-events:none; }
+.plot-grid svg .bin { fill:var(--blue); stroke:var(--navy); stroke-width:.3; }
+.plot-empty { padding:.55rem; background:var(--wash); }
+@media (max-width:780px) {
+  .figure-with-text,.tract-grid,.plot-grid { grid-template-columns:minmax(0,1fr); }
+  .plot-grid { gap:.7rem; }
+}
+@media (max-width:410px) {
+  .table-wrap th,.table-wrap td { padding:.4rem .28rem; }
+  .controls > div { flex-basis:100%; }
+}

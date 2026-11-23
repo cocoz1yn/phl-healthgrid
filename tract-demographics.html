@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Philadelphia census tract demographics and scheduled SEPTA travel times to primary care.">
+  <title>Tract Demographics | PHL HealthGrid</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="analysis.css">
+  <script defer src="analysis/tracts.js"></script>
+  <script defer src="tract-demographics.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the tract data</a>
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <span>PHL HealthGrid <small>Philadelphia healthcare explorer</small></span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="index.html">Find care</a>
+    <a href="tract-demographics.html" aria-current="page">Tract demographics</a>
+  </nav>
+</header>
+<main id="main" class="analysis-page">
+  <header class="page-intro">
+    <h1>Tract demographics</h1>
+    <p>Choose a census tract to compare its demographics and SEPTA travel time to primary care with the median populated tract.</p>
+  </header>
+
+  <section class="card study-panel" id="tract-profile" aria-labelledby="profile-title">
+    <div class="panel-intro">
+      <h2 id="profile-title">Explore Philadelphia by census tract</h2>
+      <p>Change the map layer, then click a tract or choose its 11-digit Census ID. The profile stays on the same tract as you switch layers.</p>
+    </div>
+    <noscript><p class="plot-empty">Enable JavaScript to explore the tract profiles.</p></noscript>
+    <div class="tract-grid">
+      <div class="tract-map-area">
+        <label for="metric-picker">Map layer</label>
+        <select id="metric-picker"></select>
+        <svg id="tract-map" viewBox="0 0 580 520" role="img" aria-labelledby="map-title map-caption">
+          <title id="map-title">Census tracts in Philadelphia</title>
+          <desc id="map-caption">Select a tract on the map or use the Census tract dropdown to compare neighborhood estimates.</desc>
+          <g id="tract-polygons"></g>
+        </svg>
+        <p id="map-hover" class="plot-hint">Point to a tract to see its ID and value.</p>
+        <ul class="map-legend" id="map-legend" aria-label="Map legend"></ul>
+      </div>
+      <div class="tract-details">
+        <label for="tract-picker">Census tract</label>
+        <select id="tract-picker"></select>
+        <section class="tract-comparison" aria-labelledby="comparison-title">
+          <h3 id="comparison-title">Selected tract compared with the median tract</h3>
+          <ul class="comparison-legend" aria-label="Bar colors">
+            <li class="selected-series">Selected tract</li>
+            <li class="median-series">Median tract</li>
+          </ul>
+          <p class="plot-hint">Bars start at zero. Each indicator has its own scale.</p>
+          <div id="tract-comparison"></div>
+        </section>
+        <p class="plot-hint">The median gives each populated tract equal weight. It can differ from an estimate for Philadelphia as a whole. Gray areas on the map have unavailable data for the selected measure.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer class="site-footer">
+  <p><a href="index.html">Back to Find care</a></p>
+  <p class="source-note">Sources include the U.S. Census Bureau's 2020-2024 American Community Survey and TIGER/Line tract boundaries, and the project's SEPTA routing run.</p>
+</footer>
+</body>
+</html>

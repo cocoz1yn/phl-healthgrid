@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Preview a searchable map of healthcare locations in Philadelphia.">
+<title>PHL HealthGrid · Philadelphia healthcare map</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="basemap.js"></script>
+<script defer src="street-labels.js"></script>
+<script defer src="parcels.js"></script>
+<script defer src="project-data.js"></script>
+<script defer src="directory-labels.js"></script>
+<script defer src="facility-photos.js"></script>
+<script defer src="map.js"></script>
+<script defer src="explorer.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the explorer</a>
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <span>PHL HealthGrid <small>Philadelphia healthcare explorer</small></span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="index.html" aria-current="page">Find care</a>
+    <a href="tract-demographics.html">Tract demographics</a>
+  </nav>
+</header>
+<main id="main" class="dashboard">
+  <aside class="filters" aria-labelledby="explorer-title">
+    <p class="status-label">Design preview</p>
+    <h1 id="explorer-title">Find care near you</h1>
+    <form id="search-form" role="search">
+      <label for="search">Name, street, or ZIP code</label>
+      <div class="search-row">
+        <input id="search" type="search" placeholder="Search locations" autocomplete="off">
+        <button type="submit">Search</button>
+      </div>
+    </form>
+    <fieldset>
+      <legend>Facility type</legend>
+      <button type="button" class="filter-toggle" data-filter="types">Clear all facility types</button>
+      <div id="types" class="options"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Services at this location</legend>
+      <button type="button" class="filter-toggle" data-filter="services">Clear all services</button>
+      <div id="common-services" class="options"></div>
+      <details class="more-services">
+        <summary>Specialty and support services</summary>
+        <div id="specialty-services" class="options"></div>
+      </details>
+    </fieldset>
+    <fieldset>
+      <legend>Ownership</legend>
+      <button type="button" class="filter-toggle" data-filter="owners">Clear all ownership types</button>
+      <div id="owners" class="options"></div>
+    </fieldset>
+    <button type="button" id="reset" class="secondary">Reset filters and map</button>
+    <details class="results" open>
+      <summary id="list-heading">Locations</summary>
+      <div id="results" aria-label="Facility results"></div>
+    </details>
+  </aside>
+  <section class="map-panel" aria-label="Map of healthcare facilities">
+    <fieldset class="map-layers">
+      <legend>Map layers</legend>
+      <label><input type="checkbox" id="show-parcels" checked> Parcels</label>
+      <small id="parcel-status" aria-live="polite">Zoom in to see parcel boundaries</small>
+    </fieldset>
+    <div id="map-frame" class="map-frame">
+      <canvas id="map" tabindex="0" aria-label="Map of Philadelphia healthcare locations. Drag to pan or use arrow keys. Use plus and minus to zoom. All map markers are also available in the location list." aria-describedby="map-guide">
+        Use the location list to select a facility.
+      </canvas>
+      <p id="map-count" class="map-count" aria-live="polite">Loading locations…</p>
+      <div class="map-controls" aria-label="Map controls">
+        <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+        <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+        <button type="button" id="map-home" aria-label="Reset map view" title="Reset map view">↺</button>
+      </div>
+      <p class="map-guide" id="map-guide">Drag to move · Scroll to zoom</p>
+    </div>
+    <div class="map-key" aria-label="Map key">
+      <span class="key-care">Healthcare</span><span class="key-parcels">Parcel boundaries</span>
+    </div>
+    <p class="map-sources">
+      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>
+    </p>
+  </section>
+  <section id="facility" class="facility card" aria-labelledby="facility-name">
+    <div class="facility-hero">
+      <img id="facility-photo" alt="" referrerpolicy="no-referrer" hidden>
+      <div class="facility-title">
+        <span class="tag" id="facility-category"></span>
+        <h2 id="facility-name">Select a location</h2>
+      </div>
+    </div>
+    <div class="card-body">
+      <p id="photo-credit" class="source-note photo-credit" hidden></p>
+      <dl class="facility-fields" id="facility-fields"></dl>
+      <a class="official directions-link" id="facility-directions" target="_blank" rel="noopener noreferrer" hidden>Get directions in Google Maps</a>
+      <a class="official" id="official-site" target="_blank" rel="noopener noreferrer" hidden>Visit official website ↗</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <p>Counts reflect locations in this directory. Services and ownership have varying levels of verification. Confirm services and hours with the provider. In an emergency, call 911.</p>
+  <p>© 2026 Coco Zhou. All rights reserved.</p>
+</footer>
+</body>
+</html>
