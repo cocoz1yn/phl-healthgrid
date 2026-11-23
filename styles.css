@@ -52,11 +52,8 @@ legend { padding:0 .5rem 0 0; color:#bcd0d1; font-size:.77rem; letter-spacing:.0
 .result[aria-pressed=true] { background:#245364 !important; }
 .result small { display:block; color:#bfd4d8; }
 .map-panel,.facility { min-width:0; }
-.map-layers { display:flex; flex-wrap:wrap; gap:.1rem .9rem; align-items:center; margin:0 0 .45rem; padding:0; border:0; }
-.map-layers legend { margin-bottom:.15rem; }
-.map-layers label { display:inline-flex; align-items:center; gap:.35rem; margin:0; min-height:2.1rem; }
-.map-layers input { margin:0; }
-.map-layers small { color:#425b62; min-height:1.25em; }
+.parcel-status { margin:.45rem 0 0; color:#425b62; font-size:.73rem; }
+.parcel-status:empty { margin:0; }
 .map-frame { height:clamp(520px,76vh,1000px); position:relative; border:1px solid #bbcbd1; background:#dae6eb; }
 #map { display:block; width:100%; height:100%; cursor:grab; touch-action:none; }
 #map:active { cursor:grabbing; }

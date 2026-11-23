@@ -30,7 +30,8 @@
     canvas: get("map"),
     onSelect: id => select(id, false),
     onParcelStatus(message) {
-      if (parcelStatus.textContent !== message) parcelStatus.textContent = message;
+      const notice = message.startsWith("Parcels unavailable") ? message : "";
+      if (parcelStatus.textContent !== notice) parcelStatus.textContent = notice;
     },
   });
 
@@ -247,6 +248,5 @@
   get("zoom-in").addEventListener("click", () => map.zoomBy(1.5));
   get("zoom-out").addEventListener("click", () => map.zoomBy(1 / 1.5));
   get("map-home").addEventListener("click", map.reset);
-  get("show-parcels").addEventListener("change", event => map.setParcelsVisible(event.target.checked));
   refresh();
 })();

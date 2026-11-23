@@ -85,7 +85,7 @@
         } catch {
           if (pending !== request) return;
           failedView = key;
-          report("Parcels unavailable. Pan or toggle Parcels to retry.");
+          report("Parcels unavailable. Move the map to retry.");
         } finally {
           if (pending === request) pending = null;
         }

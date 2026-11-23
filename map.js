@@ -1,6 +1,7 @@
 (() => {
   const data = window.PHL_BASEMAP;
   const parcelScale = 0.58;
+  const zoomDuration = 165;
   const priorityAreas = new Set([
     "Center City", "University City", "West Philadelphia", "South Philadelphia",
     "North Philadelphia", "Northeast Philadelphia", "Far Northeast Philadelphia",
@@ -20,6 +21,7 @@
 
   window.createHealthMap = ({ canvas, onSelect, onParcelStatus }) => {
     const context = canvas.getContext("2d");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
     const paths = Object.fromEntries(
       Object.entries(data.layers).map(([name, groups]) => [
         name,
@@ -39,7 +41,7 @@
     let scale, homeScale, width, height, pixelRatio;
     let markers = [];
     let selectedId;
-    let parcelsVisible = true;
+    let zoomTransition;
     let frame = 0;
     const pointers = new Map();
     let moved = false;
@@ -66,14 +68,26 @@
       canvas.width = Math.round(width * pixelRatio);
       canvas.height = Math.round(height * pixelRatio);
       const fit = Math.min(width / (cityRight - cityLeft), height / (cityTop - cityBottom)) * 0.88;
+      zoomTransition = null;
       scale = homeScale ? fit * (scale / homeScale) : fit;
       homeScale = fit;
       requestDraw();
     }
 
-    function draw() {
+    function draw(now) {
       frame = 0;
       if (!scale) return;
+      if (zoomTransition) {
+        const { from, to, started } = zoomTransition;
+        const progress = Math.max(0, Math.min(1, (now - started) / zoomDuration));
+        const ease = 1 - (1 - progress) ** 3;
+        centerX = from.x + (to.x - from.x) * ease;
+        centerY = from.y + (to.y - from.y) * ease;
+        // Interpolate distance per pixel so the point under the cursor stays fixed.
+        scale = 1 / ((1 - ease) / from.scale + ease / to.scale);
+        if (progress === 1) zoomTransition = null;
+        else requestDraw();
+      }
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       context.fillStyle = "#e2e8e8";
       context.fillRect(0, 0, width, height);
@@ -99,9 +113,11 @@
       const viewWidth = width / (2 * scale);
       const viewHeight = height / (2 * scale);
       const view = [centerX - viewWidth, centerY - viewHeight, centerX + viewWidth, centerY + viewHeight];
-      const showParcels = parcelsVisible && scale >= parcelScale;
-      parcels.update(showParcels ? view : null);
-      if (!showParcels) onParcelStatus(parcelsVisible ? "Zoom in to see parcel boundaries" : "");
+      const showParcels = scale >= parcelScale;
+      if (!zoomTransition) {
+        parcels.update(showParcels ? view : null);
+        if (!showParcels) onParcelStatus("");
+      }
       if (showParcels && parcels.path) stroke(parcels.path, "#a4aaa0", 0.7);
       stroke(paths.river, "#bfd4de", 0.9);
       if (scale > 0.022) stroke(paths.local, "#ffffff", Math.min(5, scale * 32));
@@ -157,6 +173,7 @@
 
       if (scale >= 0.058) {
         for (const [x, y, name, angle, roadClass] of window.PHL_STREET_LABELS) {
+          if (x < view[0] || x > view[2] || y < view[1] || y > view[3]) continue;
           if ((roadClass === "local" && scale < 0.26) || (roadClass === "collector" && scale < 0.12)) continue;
           const [sx, sy] = screen([x, y]);
           label(name, sx, sy, { size: 10, weight: 600, color: "#48565a", angle: -angle * Math.PI / 180 });
@@ -203,19 +220,32 @@
       return nearest;
     }
 
-    function zoomBy(factor, x = width / 2, y = height / 2) {
+    function zoomBy(factor, x = width / 2, y = height / 2, animate = true) {
       if (!scale) return;
+      const from = { x: centerX, y: centerY, scale };
+      const base = zoomTransition?.to ?? from;
       const limit = Math.max(1.45, homeScale * 45);
-      const nextScale = Math.min(limit, Math.max(homeScale / 1.25, scale * factor));
-      const shift = 1 / scale - 1 / nextScale;
-      centerX += (x - width / 2) * shift;
-      centerY -= (y - height / 2) * shift;
-      scale = nextScale;
-      constrain();
+      const nextScale = Math.min(limit, Math.max(homeScale / 1.25, base.scale * factor));
+      if (nextScale === base.scale) return;
+      const shift = 1 / base.scale - 1 / nextScale;
+      const to = {
+        x: Math.max(left, Math.min(right, base.x + (x - width / 2) * shift)),
+        y: Math.max(bottom, Math.min(top, base.y - (y - height / 2) * shift)),
+        scale: nextScale,
+      };
+      if (animate && !reducedMotion.matches) {
+        zoomTransition = { from, to, started: performance.now() };
+      } else {
+        zoomTransition = null;
+        centerX = to.x;
+        centerY = to.y;
+        scale = to.scale;
+      }
       requestDraw();
     }
 
     function pan(dx, dy) {
+      zoomTransition = null;
       centerX -= dx / scale;
       centerY += dy / scale;
       constrain();
@@ -223,6 +253,7 @@
     }
 
     function reset() {
+      zoomTransition = null;
       [centerX, centerY] = home;
       scale = homeScale;
       requestDraw();
@@ -235,6 +266,7 @@
 
     canvas.addEventListener("pointerdown", event => {
       if (event.button !== 0 || pointers.size >= 2) return;
+      zoomTransition = null;
       const point = localPoint(event);
       if (!pointers.size) {
         moved = false;
@@ -260,7 +292,7 @@
         const newDistance = Math.hypot(point[0] - other[0], point[1] - other[1]);
         pan((point[0] - previous[0]) / 2, (point[1] - previous[1]) / 2);
         if (oldDistance > 0 && newDistance > 0) {
-          zoomBy(newDistance / oldDistance, (point[0] + other[0]) / 2, (point[1] + other[1]) / 2);
+          zoomBy(newDistance / oldDistance, (point[0] + other[0]) / 2, (point[1] + other[1]) / 2, false);
         }
       } else if (moved || Math.hypot(point[0] - start[0], point[1] - start[1]) > 4) {
         const from = moved ? previous : start;
@@ -277,8 +309,9 @@
     canvas.addEventListener("lostpointercapture", event => pointers.delete(event.pointerId));
     canvas.addEventListener("wheel", event => {
       event.preventDefault();
-      const steps = event.deltaMode ? Math.sign(event.deltaY) * 100 : event.deltaY;
-      zoomBy(Math.exp(-steps * 0.0025), ...localPoint(event));
+      const pixels = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? height : 1);
+      const steps = Math.max(-120, Math.min(120, pixels));
+      zoomBy(Math.exp(-steps * 0.002), ...localPoint(event));
     }, { passive: false });
 
     canvas.addEventListener("keydown", event => {
@@ -300,6 +333,7 @@
         requestDraw();
       },
       centerOn([x, y]) {
+        zoomTransition = null;
         centerX = x;
         centerY = y;
         scale = Math.max(scale, 0.13);
@@ -308,10 +342,6 @@
       },
       zoomBy,
       reset,
-      setParcelsVisible(visible) {
-        parcelsVisible = visible;
-        requestDraw();
-      },
     };
   };
 })();

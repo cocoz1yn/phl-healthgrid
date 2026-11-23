@@ -63,11 +63,6 @@
     </details>
   </aside>
   <section class="map-panel" aria-label="Map of healthcare facilities">
-    <fieldset class="map-layers">
-      <legend>Map layers</legend>
-      <label><input type="checkbox" id="show-parcels" checked> Parcels</label>
-      <small id="parcel-status" aria-live="polite">Zoom in to see parcel boundaries</small>
-    </fieldset>
     <div id="map-frame" class="map-frame">
       <canvas id="map" tabindex="0" aria-label="Map of Philadelphia healthcare locations. Drag to pan or use arrow keys. Use plus and minus to zoom. All map markers are also available in the location list." aria-describedby="map-guide">
         Use the location list to select a facility.
@@ -80,6 +75,7 @@
       </div>
       <p class="map-guide" id="map-guide">Drag to move · Scroll to zoom</p>
     </div>
+    <p class="parcel-status" id="parcel-status" role="status"></p>
     <div class="map-key" aria-label="Map key">
       <span class="key-care">Healthcare</span><span class="key-parcels">Parcel boundaries</span>
     </div>
